@@ -25,11 +25,19 @@ public class PatronService {
         return patronRepository.save(patron);
     }
 
-    public Patron updatePatron(Patron patron) {
-        return patronRepository.save(patron);
+    public Patron updatePatron(Long id, Patron patron) {
+        Patron oldPatron = patronRepository.findById(id).orElse(null);
+        if(oldPatron == null){
+            return null;
+        }
+        if(patron.getName() != null)
+            oldPatron.setName(patron.getName());
+        if(patron.getContactInformation() != null)
+            oldPatron.setContactInformation(patron.getContactInformation());
+        return patronRepository.save(oldPatron);
     }
 
-    public void deletePatron(Patron patron) {
-        patronRepository.delete(patron);
+    public void deletePatron(Long id) {
+        patronRepository.deleteById(id);
     }
 }

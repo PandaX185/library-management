@@ -1,7 +1,7 @@
 package com.panda.library.controller;
 
-import com.panda.library.model.Book;
-import com.panda.library.service.BookService;
+import com.panda.library.model.Patron;
+import com.panda.library.service.PatronService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,40 +13,40 @@ import java.util.List;
 public class PatronController {
 
     @Autowired
-    private BookService bookService;
+    private PatronService patronService;
 
     @GetMapping
-    public List<Book> getBooks() {
-        return bookService.getAllBooks();
+    public List<Patron> getPatrons() {
+        return patronService.getAllPatrons();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable Long id) {
-        Book book = bookService.getBookById(id);
-        if (book == null) {
+    public ResponseEntity<Patron> getPatron(@PathVariable Long id) {
+        Patron patron = patronService.getPatronById(id);
+        if (patron == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok(patron);
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
-        Book newBook = bookService.createBook(book);
-        return ResponseEntity.ok(newBook);
+    public ResponseEntity<Patron> addPatron(@RequestBody Patron patron) {
+        Patron newPatron = patronService.createPatron(patron);
+        return ResponseEntity.ok(newPatron);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book updatedBook = bookService.updateBook(id,book);
-        if (updatedBook == null) {
+    public ResponseEntity<Patron> updatePatron(@PathVariable Long id, @RequestBody Patron patron) {
+        Patron updatedPatron = patronService.updatePatron(id,patron);
+        if (updatedPatron == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(updatedBook);
+        return ResponseEntity.ok(updatedPatron);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
-        bookService.deleteBook(id);
+    public ResponseEntity<Void> deletePatron(@PathVariable Long id) {
+        patronService.deletePatron(id);
         return ResponseEntity.noContent().build();
     }
 }
