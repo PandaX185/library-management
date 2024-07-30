@@ -18,7 +18,7 @@ public class Book {
     @NotBlank
     @Column(nullable = false)
     private String author;
-    @NotBlank
+    @NotNull
     @Column(nullable = false)
     @Min(1700)
     @Max(2030)

@@ -19,7 +19,6 @@ public class BorrowingRecord {
     @ManyToOne
     private Patron patron;
     @Column(nullable = false)
-    @NotBlank
     private LocalDate borrowDate;
     private LocalDate returnDate;
 }

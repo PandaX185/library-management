@@ -1,5 +1,8 @@
 package com.panda.library.controller;
 
+import com.panda.library.exception.BookNotFoundException;
+import com.panda.library.exception.BorrowingRecordNotFoundException;
+import com.panda.library.exception.PatronNotFoundException;
 import com.panda.library.model.BorrowingRecord;
 import com.panda.library.service.BorrowingRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,7 @@ public class BorrowingRecordController {
     private BorrowingRecordService borrowingRecordService;
 
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
-    public ResponseEntity<BorrowingRecord> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) {
+    public ResponseEntity<BorrowingRecord> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) throws PatronNotFoundException, BookNotFoundException {
         BorrowingRecord borrowingRecord = borrowingRecordService.borrowBook(bookId,patronId);
         if(borrowingRecord == null){
             return ResponseEntity.notFound().build();
@@ -24,7 +27,7 @@ public class BorrowingRecordController {
     }
 
     @PutMapping("/return/{bookId}/patron/{patronId}")
-    public ResponseEntity<BorrowingRecord> returnBook(@PathVariable Long bookId, @PathVariable Long patronId) {
+    public ResponseEntity<BorrowingRecord> returnBook(@PathVariable Long bookId, @PathVariable Long patronId) throws BorrowingRecordNotFoundException {
         BorrowingRecord borrowingRecord = borrowingRecordService.returnBook(bookId,patronId);
         if(borrowingRecord == null){
             return ResponseEntity.notFound().build();

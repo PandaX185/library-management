@@ -1,7 +1,9 @@
 package com.panda.library.controller;
 
+import com.panda.library.exception.BookNotFoundException;
 import com.panda.library.model.Book;
 import com.panda.library.service.BookService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,31 +23,25 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBook(@PathVariable Long id) {
+    public ResponseEntity<Book> getBook(@PathVariable Long id) throws BookNotFoundException {
         Book book = bookService.getBookById(id);
-        if (book == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(book);
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody @Valid Book book) {
         Book newBook = bookService.createBook(book);
         return ResponseEntity.ok(newBook);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book book) throws BookNotFoundException {
         Book updatedBook = bookService.updateBook(id,book);
-        if (updatedBook == null) {
-            return ResponseEntity.notFound().build();
-        }
         return ResponseEntity.ok(updatedBook);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) throws BookNotFoundException {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
