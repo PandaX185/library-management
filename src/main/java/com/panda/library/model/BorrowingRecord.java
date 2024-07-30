@@ -1,9 +1,14 @@
 package com.panda.library.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
+@Getter
+@Setter
 @Entity
 public class BorrowingRecord {
     @Id
@@ -13,38 +18,8 @@ public class BorrowingRecord {
     private Book book;
     @ManyToOne
     private Patron patron;
+    @Column(nullable = false)
+    @NotBlank
     private LocalDate borrowDate;
     private LocalDate returnDate;
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public Patron getPatron() {
-        return patron;
-    }
-
-    public void setPatron(Patron patron) {
-        this.patron = patron;
-    }
-
-    public LocalDate getBorrowDate() {
-        return borrowDate;
-    }
-
-    public void setBorrowDate(LocalDate borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-    }
 }

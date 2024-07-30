@@ -30,10 +30,14 @@ public class BookService {
         if (oldBook == null) {
             return null;
         }
-        oldBook.setTitle(book.getTitle());
-        oldBook.setAuthor(book.getAuthor());
-        oldBook.setPublicationYear(book.getPublicationYear());
-        oldBook.setIsbn(book.getIsbn());
+        if(book.getTitle() != null)
+            oldBook.setTitle(book.getTitle());
+        if(book.getAuthor() != null)
+            oldBook.setAuthor(book.getAuthor());
+        if(book.getIsbn() != null)
+            oldBook.setIsbn(book.getIsbn());
+        if(book.getPublicationYear() != 0)
+            oldBook.setPublicationYear(book.getPublicationYear());
         return bookRepository.save(oldBook);
     }
 

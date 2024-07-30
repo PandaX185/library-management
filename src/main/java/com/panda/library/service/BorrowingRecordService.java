@@ -17,7 +17,9 @@ public class BorrowingRecordService {
 
     @Autowired
     private BorrowingRecordRepository borrowingRecordRepository;
+    @Autowired
     private BookRepository bookRepository;
+    @Autowired
     private PatronRepository patronRepository;
 
     public BorrowingRecord borrowBook(Long bookId, Long patronId) {
