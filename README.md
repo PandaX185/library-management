@@ -11,6 +11,8 @@ Simple library management api built with Java Spring Boot
 - SwaggerUI Documentation
 - Unit testing
 - Data storage using JPA and PostgreSQL
+- AOP mechanism to log events like method call and exceptions
+- Spring Caching for frequent requested data
 
 ## How to run
 
