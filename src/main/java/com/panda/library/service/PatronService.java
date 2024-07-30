@@ -24,7 +24,7 @@ public class PatronService {
         if (patron.isPresent()) {
             return patron.get();
         }
-        throw new PatronNotFoundException("Patron Not Found");
+        throw new PatronNotFoundException("Patron not found");
     }
 
     public Patron createPatron(Patron patron) {
@@ -41,9 +41,7 @@ public class PatronService {
     }
 
     public void deletePatron(Long id) throws PatronNotFoundException {
-        if(!patronRepository.existsById(id)){
-            throw new PatronNotFoundException("Patron Not Found");
-        }
+        getPatronById(id);
         patronRepository.deleteById(id);
     }
 }

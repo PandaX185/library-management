@@ -13,9 +13,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/patrons")
 public class PatronController {
+    private final PatronService patronService;
 
     @Autowired
-    private PatronService patronService;
+    public PatronController(PatronService patronService) {
+        this.patronService = patronService;
+    }
 
     @GetMapping
     public List<Patron> getPatrons() {

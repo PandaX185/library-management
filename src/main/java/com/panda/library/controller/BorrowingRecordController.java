@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class BorrowingRecordController {
 
+    private final BorrowingRecordService borrowingRecordService;
+
     @Autowired
-    private BorrowingRecordService borrowingRecordService;
+    public BorrowingRecordController(BorrowingRecordService borrowingRecordService) {
+        this.borrowingRecordService = borrowingRecordService;
+    }
 
     @PostMapping("/borrow/{bookId}/patron/{patronId}")
     public ResponseEntity<BorrowingRecord> borrowBook(@PathVariable Long bookId, @PathVariable Long patronId) throws PatronNotFoundException, BookNotFoundException {
