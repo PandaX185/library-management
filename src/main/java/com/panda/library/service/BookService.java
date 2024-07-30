@@ -4,6 +4,8 @@ import com.panda.library.exception.BookNotFoundException;
 import com.panda.library.model.Book;
 import com.panda.library.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Cacheable("books")
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
@@ -27,10 +30,12 @@ public class BookService {
         throw new BookNotFoundException("Book not found");
     }
 
+    @CacheEvict(value = "books", allEntries = true)
     public Book createBook(Book book) {
         return bookRepository.save(book);
     }
 
+    @CacheEvict(value = "books", allEntries = true)
     public Book updateBook(Long id, Book book) throws BookNotFoundException {
         Book oldBook = getBookById(id);
         if(book.getTitle() != null)
@@ -44,6 +49,7 @@ public class BookService {
         return bookRepository.save(oldBook);
     }
 
+    @CacheEvict(value = "books", key = "#id")
     public void deleteBook(Long id) throws BookNotFoundException {
         getBookById(id);
         bookRepository.deleteById(id);

@@ -11,6 +11,7 @@ import com.panda.library.repository.BorrowingRecordRepository;
 import com.panda.library.repository.PatronRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class BorrowingRecordService {
     @Autowired
     private PatronRepository patronRepository;
 
+    @Transactional
     public BorrowingRecord borrowBook(Long bookId, Long patronId) throws BookNotFoundException, PatronNotFoundException {
         Optional<Book> book = bookRepository.findById(bookId);
         Optional<Patron> patron = patronRepository.findById(patronId);
@@ -41,6 +43,7 @@ public class BorrowingRecordService {
         return borrowingRecordRepository.save(borrowingRecord);
     }
 
+    @Transactional
     public BorrowingRecord returnBook(Long bookId, Long patronId) throws BorrowingRecordNotFoundException {
        BorrowingRecord record = borrowingRecordRepository.findByBookIdAndPatronId(bookId,patronId).orElse(null);
        if (record == null) {

@@ -4,6 +4,8 @@ import com.panda.library.exception.PatronNotFoundException;
 import com.panda.library.model.Patron;
 import com.panda.library.repository.PatronRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,7 @@ public class PatronService {
     @Autowired
     private PatronRepository patronRepository;
 
+    @Cacheable("patrons")
     public List<Patron> getAllPatrons() {
         return patronRepository.findAll();
     }
@@ -27,10 +30,12 @@ public class PatronService {
         throw new PatronNotFoundException("Patron not found");
     }
 
+    @CacheEvict(value = "patrons", allEntries = true)
     public Patron createPatron(Patron patron) {
         return patronRepository.save(patron);
     }
 
+    @CacheEvict(value = "patrons", allEntries = true)
     public Patron updatePatron(Long id, Patron patron) throws PatronNotFoundException {
         Patron oldPatron = getPatronById(id);
         if(patron.getName() != null)
@@ -40,6 +45,7 @@ public class PatronService {
         return patronRepository.save(oldPatron);
     }
 
+    @CacheEvict(value = "patrons", key = "#id")
     public void deletePatron(Long id) throws PatronNotFoundException {
         getPatronById(id);
         patronRepository.deleteById(id);
